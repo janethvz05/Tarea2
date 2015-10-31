@@ -1,9 +1,52 @@
 angular.module('starter.services', [])
 
-.factory('Chats', function() {
+.factory('Chats', function($cordovaSQLite) {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
+  var chats = [];
+
+  
+
+  return {
+    all: function() {
+
+      chats = [];
+
+      $cordovaSQLite.execute(db, 'SELECT * FROM restaurante ORDER BY id DESC')
+       .then(
+          function(result) {
+             if (result.rows.length > 0) {
+                      for(var i = 0; i < result.rows.length; i++)
+                      { 
+                        chats.push({"nombre":result.rows.item(i).nombre,
+                                    "descripcion":result.rows.item(i).descripcion,
+                                    "precio":result.rows.item(i).precio,});
+                      }
+                    }
+                },
+                function(error) {
+                    statusMessage = "Error on loading: " + error.message;
+                }
+        );
+
+      return chats;
+    },
+  
+remove: function(chat) {
+    $cordovaSQLite.execute(db, 'DELETE FROM restaurante where id = ?',[chat.id])
+    .then(function(result){
+        statusMessage = "Borrado";
+    },
+    function(error){
+        statusMessage = "Error: " + error.message;
+    });
+}
+
+};
+
+
+  /*
   var chats = [{
     id: 0,
     name: 'Ben Sparrow',
@@ -30,7 +73,6 @@ angular.module('starter.services', [])
     lastText: 'This is wicked good ice cream.',
     face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
   }];
-
   return {
     all: function() {
       return chats;
@@ -46,5 +88,5 @@ angular.module('starter.services', [])
       }
       return null;
     }
-  };
+  };*/
 });
