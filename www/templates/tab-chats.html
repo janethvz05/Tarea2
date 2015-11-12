@@ -1,17 +1,13 @@
 <ion-view view-title="Menu">
-  
-  <ion-nav-buttons side="primary">
+<ion-nav-buttons side="primary">
       <button class="button" ng-click="getAll()">
         Recarga
       </button>
-  </ion-nav-buttons>
-  
+  </ion-nav-buttons>  
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png">
-        <h2>{{chat.nombre}} </h2>
-           <p>{{chat.descripcion}}</p>
+        <h2>{{chat.nombre}} {{chat.descripcion}}</h2>
         <p>{{chat.precio}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
